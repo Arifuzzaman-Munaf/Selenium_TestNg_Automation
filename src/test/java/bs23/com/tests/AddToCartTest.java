@@ -45,9 +45,9 @@ public class AddToCartTest extends BaseTest {
     public void addToCartFromHomePage(Product product) {
         HomePage homePage = new HomePage(getDriver());
         CartPage cartPage = homePage.load().
-                getProductFunctions().
-                clickAddToCartButton(product.getName()).
-                clickViewCartLink();
+                            getProductFunctions().
+                            clickAddToCartButton(product.getName()).
+                            clickViewCartLink();
 
         cartPage.validateProduct(product.getName());
     }
