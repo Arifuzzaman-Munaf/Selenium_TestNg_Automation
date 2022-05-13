@@ -50,5 +50,4 @@ public class AddToCartTest extends BaseTest {
 
         cartPage.validateProduct(product.getName());
     }
-
 }
