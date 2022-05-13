@@ -32,7 +32,7 @@ public class AddToCartTest extends BaseTest {
                 getProductFunctions().
                 //this line will navigate to cart page
                         clickViewCartLink().
-                /*validating the product name is okay or not*/
+                //validating the product name is okay or not//
                         validateProduct(item.getName());
     }
 
