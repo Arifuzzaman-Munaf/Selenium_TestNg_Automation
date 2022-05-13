@@ -34,7 +34,6 @@ public class AddToCartTest extends BaseTest {
                         clickViewCartLink().
                 /*validating the product name is okay or not*/
                         validateProduct(item.getName());
-
     }
 
     @Test(
