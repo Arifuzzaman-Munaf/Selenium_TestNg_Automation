@@ -10,60 +10,64 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+
 import java.util.List;
 
 
 public class CheckOutPage extends BasePage {
 
-    private Overlays overlays;
-    @FindBy(how = How.ID, using = "billing_first_name" )
-    @CacheLookup private WebElement firstNameBox;
-
-    @FindBy(how = How.ID, using = "billing_last_name" )
-    @CacheLookup private WebElement lastNameBox;
-
-    @FindBy(how = How.ID, using = "select2-billing_country-container" )
-    @CacheLookup private WebElement billingCountryDropdown;
-
-    @FindBy(how = How.ID, using = "billing_address_1" )
-    @CacheLookup private WebElement billingAddressBox ;
-
-    @FindBy(how = How.ID, using = "billing_city" )
-    @CacheLookup private WebElement billingCityBox ;
-
-    @FindBy(how = How.ID, using = "select2-billing_state-container" )
-    @CacheLookup private WebElement billingStateDropdown ;
-
-    @FindBy(how = How.ID, using = "billing_postcode" )
-    @CacheLookup private WebElement billingZipBox  ;
-
-    @FindBy(how = How.ID, using = "billing_email" )
-    @CacheLookup private WebElement billingEmailBox  ;
-
-    @FindBy(how = How.ID, using = "place_order" )
-    @CacheLookup private WebElement placeOrderButton ;
-
-
     private final By confirmationMessage = By.cssSelector(".woocommerce-order >p");
+    private final Overlays overlays;
+    @FindBy(how = How.ID, using = "billing_first_name")
+    @CacheLookup
+    private WebElement firstNameBox;
+    @FindBy(how = How.ID, using = "billing_last_name")
+    @CacheLookup
+    private WebElement lastNameBox;
+    @FindBy(how = How.ID, using = "select2-billing_country-container")
+    @CacheLookup
+    private WebElement billingCountryDropdown;
+    @FindBy(how = How.ID, using = "billing_address_1")
+    @CacheLookup
+    private WebElement billingAddressBox;
+    @FindBy(how = How.ID, using = "billing_city")
+    @CacheLookup
+    private WebElement billingCityBox;
+    @FindBy(how = How.ID, using = "select2-billing_state-container")
+    @CacheLookup
+    private WebElement billingStateDropdown;
+    @FindBy(how = How.ID, using = "billing_postcode")
+    @CacheLookup
+    private WebElement billingZipBox;
+    @FindBy(how = How.ID, using = "billing_email")
+    @CacheLookup
+    private WebElement billingEmailBox;
+    @FindBy(how = How.ID, using = "place_order")
+    @CacheLookup
+    private WebElement placeOrderButton;
+    @FindBy(how = How.CLASS_NAME, using = "showlogin")
+    @CacheLookup
+    private WebElement loginLink;
 
-    @FindBy(how = How.CLASS_NAME, using = "showlogin" )
-    @CacheLookup private WebElement loginLink  ;
+    @FindBy(how = How.ID, using = "username")
+    @CacheLookup
+    private WebElement userEmailField;
 
-    @FindBy(how = How.ID, using = "username" )
-    @CacheLookup private WebElement userEmailField ;
+    @FindBy(how = How.ID, using = "password")
+    @CacheLookup
+    private WebElement userPasswordField;
 
-    @FindBy(how = How.ID, using = "password" )
-    @CacheLookup private WebElement userPasswordField  ;
+    @FindBy(how = How.NAME, using = "login")
+    @CacheLookup
+    private WebElement loginButton;
 
-    @FindBy(how = How.NAME, using = "login" )
-    @CacheLookup private WebElement loginButton ;
-
-    @FindBy(how = How.CSS, using = ".blockUI.blockOverlay" )
-    @CacheLookup private List<WebElement> overlaysLocator ;
+    @FindBy(how = How.CSS, using = ".blockUI.blockOverlay")
+    @CacheLookup
+    private List<WebElement> overlaysLocator;
 
     @FindBy(how = How.CSS, using = "td[class='product-name']")
-    @CacheLookup private WebElement productNameLocator;
-
+    @CacheLookup
+    private WebElement productNameLocator;
 
 
     public CheckOutPage(WebDriver driver) {
@@ -71,13 +75,24 @@ public class CheckOutPage extends BasePage {
         overlays = new Overlays(driver);
     }
 
-    public CheckOutPage load(){
+    /*
+    parameter : none
+    function : load the page link with endpoint
+    return : current page object
+    inherited : loadUrl()
+     */
+    public CheckOutPage load() {
         super.loadUrl("/checkout/");
         return this;
     }
 
 
-    //  enter the user first name
+    /*
+    parameter : firstName(String Value)
+    function : send data to First Name input field
+    return : same page object
+    inherited : getByVisibility()
+     */
     private CheckOutPage enterFirstName(String firstName) {
         WebElement element = super.getByVisibility(firstNameBox);
         element.clear();
@@ -86,7 +101,12 @@ public class CheckOutPage extends BasePage {
     }
 
 
-    //    enter the user last name
+    /*
+    parameter : lastName(String Value)
+    function : send data to Last Name input field
+    return : same page object
+    inherited : getByVisibility()
+     */
     private CheckOutPage enterLastName(String lastName) {
         WebElement element = super.getByVisibility(lastNameBox);
         element.clear();
@@ -95,20 +115,32 @@ public class CheckOutPage extends BasePage {
     }
 
 
-
-    private CheckOutPage setCountry(String country){
+    /*
+    parameter : country(String Value of country name)
+    function : set country from dropdown list using string data
+    return : same page object
+    inherited : getLocator(), isClickable
+    Speciality : generates dynamic locator using country argument
+                 executes covered data using js executor
+     */
+    private CheckOutPage setCountry(String country) {
 //        WebElement element = super.getByVisibility(billingCountryDropdown);
 //        Select select = new Select(element);
 //        select.selectByVisibleText(country);
         super.click(billingCountryDropdown);
         WebElement element = (WebElement) isClickable(getLocator(country));
-        JavaScriptUtils.scrollView(driver,element);
+        JavaScriptUtils.scrollView(driver, element);
         element.click();
         return this;
     }
 
 
-    //    enter the billing address of user
+    /*
+    parameter : address(String Value)
+    function : send data to Address input field
+    return : same page object
+    inherited : getByVisibility()
+     */
     private CheckOutPage enterBillingAddress(String address) {
         WebElement element = super.getByVisibility(billingAddressBox);
         element.clear();
@@ -116,9 +148,12 @@ public class CheckOutPage extends BasePage {
         return this;
     }
 
-
-
-    //    enter the billing city of user
+    /*
+    parameter : cityName(String Value)
+    function : send data to City input field
+    return : same page object
+    inherited : getByVisibility()
+     */
     private CheckOutPage enterBillingCity(String cityName) {
         WebElement element = super.getByVisibility(billingCityBox);
         element.clear();
@@ -127,17 +162,29 @@ public class CheckOutPage extends BasePage {
     }
 
 
-    private CheckOutPage setState(String state){
+    /*
+    parameter : state(String Value of state name)
+    function : set state from dropdown list using string data
+    return : same page object
+    inherited : getLocator(), isClickable
+    Speciality : generates dynamic locator using state argument
+                executes covered data using js executor
+    */
+    private CheckOutPage setState(String state) {
 
         super.click(billingStateDropdown);
         WebElement element = (WebElement) isClickable(getLocator(state));
-        JavaScriptUtils.scrollView(driver,element);
+        JavaScriptUtils.scrollView(driver, element);
         element.click();
         return this;
     }
 
-
-    //    enter the billing zip of the user
+    /*
+    parameter : zipCode(String Value)
+    function : send data to zip/postal code input field
+    return : same page object
+    inherited : getByVisibility()
+     */
     private CheckOutPage enterBillingZip(String zipCode) {
         WebElement element = super.getByVisibility(billingZipBox);
         element.clear();
@@ -145,20 +192,28 @@ public class CheckOutPage extends BasePage {
         return this;
     }
 
-
-
-    //    enter the user email for billing
+    /*
+    parameter : emailAddress(String Value)
+    function : send data to Email Address input field
+    return : same page object
+    inherited : getByVisibility()
+    speciality : checks whether the input field is empty or not
+     */
     private CheckOutPage enterBillingEmail(String emailAddress) {
         WebElement element = super.getByVisibility(billingEmailBox);
-        if (element.getAttribute("value").length() == 0){
+        if (element.getAttribute("value").length() == 0) {
             element.sendKeys(emailAddress);
         }
 
         return this;
     }
 
-
-
+    /*
+    parameter : None
+    function : click place order button
+    return : void
+    inherited : waitForOverlayToInvisible
+     */
     //    this method helps to click on place order button to process further
     private void clickPlaceOrderButton() {
         overlays.waitForOverlayToInvisible(overlaysLocator);
@@ -167,8 +222,8 @@ public class CheckOutPage extends BasePage {
 
 
     //  This is the method which compresses all the key methods
-//  for this page to place order
-    public void placeOrder(BillingAddress billingAddress){
+    //  for this page to place order
+    public void placeOrder(BillingAddress billingAddress) {
         enterFirstName(billingAddress.getFirstName()).
                 enterLastName(billingAddress.getLastName()).
                 setCountry(billingAddress.getCountry()).
@@ -182,52 +237,62 @@ public class CheckOutPage extends BasePage {
     }
 
 
-
-//  this method helps to show the fields
+    //  this method helps to show the fields
 //  what we need during the login
-    public CheckOutPage clickLoginLink(){
+    public CheckOutPage clickLoginLink() {
         super.click(loginLink);
         return this;
     }
-
-    private CheckOutPage enterEmail(String email){
+    /*
+    parameter : email(String Value)
+    function : send data to Email Address input field
+    return : same page object
+    inherited : getByVisibility()
+     */
+    private CheckOutPage enterEmail(String email) {
         WebElement element = super.getByVisibility(userEmailField);
         element.sendKeys(email);
         return this;
     }
-
-    private CheckOutPage enterPassword(String password){
+    /*
+    parameter : password(String Value)
+    function : send data to password input field
+    return : same page object
+    inherited : getByVisibility()
+     */
+    private CheckOutPage enterPassword(String password) {
         WebElement element = super.getByVisibility(userPasswordField);
         element.sendKeys(password);
         return this;
     }
-    private CheckOutPage enterLoginDetails(String email, String password){
+
+    private CheckOutPage enterLoginDetails(String email, String password) {
         enterEmail(email);
         enterPassword(password);
         return this;
     }
 
-    private CheckOutPage clickLoginButton(){
+    private CheckOutPage clickLoginButton() {
         super.click(loginButton);
         return this;
     }
 
 
-//  validates whether the confirmation message
+    //  validates whether the confirmation message
 //  is okay or not after proper wait using overlay
 //  to disappear with proper waiting time
-    public void confirmation(String text){
+    public void confirmation(String text) {
         overlays.waitForOverlayToInvisible(overlaysLocator);
         super.validateText(confirmationMessage, text);
     }
 
-    public void validateSubText(String productName){
-        super.validateSubText(productNameLocator,productName);
+    public void validateSubText(String productName) {
+        super.validateSubText(productNameLocator, productName);
     }
 
-    public CheckOutPage logIn(String email, String password){
+    public CheckOutPage logIn(String email, String password) {
         clickLoginLink()
-                .enterLoginDetails(email,password)
+                .enterLoginDetails(email, password)
                 .clickLoginButton();
         return this;
     }
