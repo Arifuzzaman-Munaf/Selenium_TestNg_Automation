@@ -29,12 +29,23 @@ public class CartPage extends BasePage {
 //    }
 
 
-//  this method helps to click on check out button
+
+    /*
+    parameter : None
+    function : click checkout button
+    return : Object of CheckOutPage
+     */
     public CheckOutPage clickCheckOutButton(){
         super.click(checkOutButton);
         return new CheckOutPage(driver);
     }
 
+
+    /*
+    parameter : product (String value of product name)
+    function : validate the product name with actual data
+    return : void
+     */
     @Step
     public void validateProduct(String product) {
 
